@@ -35,7 +35,7 @@ function setupBoard(pgn) {
 function drawBoard() {
   boardDiv.innerHTML = "";
   const position = game.board();
-if(!isFlipped){
+   if(!isFlipped) {
   for (let r = 7; r >=0;r--) {
     for (let c = 7;c >=0;c--) {
       const square = document.createElement("div");
@@ -53,7 +53,7 @@ if(!isFlipped){
     }
   }
 }
-  else{
+  else {
     for (let r = 0; r <8;r++) {
     for (let c = 7;c >=0;c--) {
       const square = document.createElement("div");
@@ -70,6 +70,7 @@ if(!isFlipped){
       boardDiv.appendChild(square);
     }
   }
+}
 }
 
 
