@@ -32,11 +32,12 @@ function setupBoard(pgn) {
   drawBoard();
 }
 
-function drawBoard() {
+function drawBoard() 
+{
   boardDiv.innerHTML = "";
   const position = game.board();
-  for (let r = 7; r >=0;r--) {
-    for (let c = 7;c >=0;c--) {
+  for (let r = 0; r < 8;r++) {
+    for (let c = 7;c >= 0;c--) {
       const square = document.createElement("div");
       square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
 
