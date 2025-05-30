@@ -41,7 +41,7 @@ function drawBoard() {
       const square = document.createElement("div");
       square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
 
-      const piece = position[7 - r][c]; // This flips vertical access correctly
+      const piece = position[r][c]; // This flips vertical access correctly
       if (piece) {
         const img = document.createElement("img");
         const code = piece.color + piece.type.toUpperCase();
