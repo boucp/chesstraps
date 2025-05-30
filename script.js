@@ -2,6 +2,7 @@ function toggleTraps(id) {
   const list = document.getElementById(id);
   list.style.display = list.style.display === "block" ? "none" : "block";
 }
+
 const pieces = {
   wP: '../images/wP.png',
   wR: '../images/wR.png',
@@ -17,7 +18,7 @@ const pieces = {
   bK: '../images/bK.png',
 };
 
-let boardDiv, game, history = [], moveIndex = 0;
+let boardDiv, game, history = [], moveIndex = 0, isFlipped = false;
 
 function setupBoard(pgn) {
   boardDiv = document.getElementById("board");
@@ -34,8 +35,12 @@ function setupBoard(pgn) {
 function drawBoard() {
   boardDiv.innerHTML = "";
   const position = game.board();
-  for (let r = 7; r >= 0; r--) {
-    for (let c = 0; c < 8; c++) {
+
+  const ranks = isFlipped ? [...Array(8).keys()] : [...Array(8).keys()].reverse();
+  const files = isFlipped ? [...Array(8).keys()].reverse() : [...Array(8).keys()];
+
+  for (let r of ranks) {
+    for (let c of files) {
       const square = document.createElement("div");
       square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
       const piece = position[r][c];
@@ -65,3 +70,7 @@ function prevMove() {
   }
 }
 
+function flipBoard() {
+  isFlipped = !isFlipped;
+  drawBoard();
+}
