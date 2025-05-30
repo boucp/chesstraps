@@ -7,7 +7,7 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background: #f2f2f2;
+      background: #f5f5f5;
     }
     #board {
       margin: 20px auto;
@@ -33,14 +33,14 @@
       height: 50px;
     }
     button {
-      padding: 8px 15px;
-      margin: 5px;
+      padding: 10px 20px;
+      margin: 10px;
       font-size: 16px;
     }
   </style>
 </head>
 <body>
-  <h1>Chess Traps</h1>
+  <h1>Chess Trap Viewer</h1>
   <button onclick="loadTrap()">Load Fried Liver Attack</button>
   <div id="board"></div>
   <button onclick="prevMove()">⏮ Prev</button>
@@ -48,30 +48,38 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
   <script>
-    const pieceImages = {
+    const pieces = {
+      wP: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAbFBMVEUAAADZ2dn///+YmJiZmZnY2Njv7+/f39/Dw8PHx8eoqKiUlJTe3t7T09PJycnKysq7u7vOzs7S0tL5+fnu7u7ExMR3d3eWlpbV1dVLS0s5OTlFRUVqamqurq6/v78uLi7u7u6enp6jo/XDAAAAO0lEQVRIie3UsQ0AMAgDQJ3c//+7YhU1DBSR+lQAsITcRQArRslvAflKSnloZ7lvCkBdhQEKhc7ceAhw2kJC7L+y9sAAAAASUVORK5CYII=',
+      wR: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAbFBMVEUAAADZ2dn///+YmJiZmZnY2Njv7+/f39/Dw8PHx8eoqKiUlJTe3t7T09PJycnKysq7u7vOzs7S0tL5+fnu7u7ExMR3d3eWlpbV1dVLS0s5OTlFRUVqamqurq6/v78uLi7u7u6enp6jo/XDAAAAO0lEQVRIie3UsQ0AMAgDQJ3c//+7YhU1DBSR+lQAsITcRQArRslvAflKSnloZ7lvCkBdhQEKhc7ceAhw2kJC7L+y9sAAAAASUVORK5CYII=',
+      wN: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAY1BMVEUAAAD////v7+/AwMDe3t7Y2Nj09PTT09PLy8vZ2dnZ2dnPz8/b29vh4eHb29u+vr6np6eqqqq8vLygoKDc3Nzo6Oj5+fns7OxhYWF+fn5BQUFUVFRXV1dOTk5bW1upHg+ZAAAAJUlEQVRIie3RMQEAAAgCoP+vdeIYYg1pCI8PhQAAAACAeLgA7aDhTgAAAABJRU5ErkJggg==',
+      wB: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAbFBMVEUAAAD////x8fHY2Nj09PTf39/z8/Pe3t7Z2dnv7+/n5+fPz8/7+/vl5eXs7Ozw8PDv7+/V1dXg4ODe3t7f39/V1dXx8fHc3NzKysq/v7+ioqLn5+e2trZ4eHi2trbz5HyZAAAAPUlEQVRIie3UsQkAIBADwfn+e40HRBiq7Tf1ZUZG8GVuyWFAAxpbBCsTUEVV4B0J53bfyFvwBYLkYphzA04YAAAAASUVORK5CYII=',
+      wQ: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAbFBMVEUAAAD///+ZmZnX19fz8/Pu7u7c3NzY2Njj4+Pe3t7b29vk5OTq6urT09P5+fnv7+/S0tLe3t7b29vY2Njf39/Pz8+3t7fHx8fs7Ox8fHyMjIy5ubkNDQ2FhYWbm5uqqqrZ2dkMe4EYAAAAPElEQVRIie3UsQkAIAwDwfn+YvftDYYJhNyfLroKYMAhWBc2SI9IJ0AF/Hft7VLcF1CpBNLq5CN+Z+xGc3FEYwAAAAASUVORK5CYII=',
       wK: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAMFBMVEX////AwMDIyMjv7+/V1dX7+/vX19fs7OzExMT4+Pjw8PDq6uqurq7BwcHHx8ezs7O0tLQPLcQBAAABOklEQVRIie3UwQ2AMAwF0OcgH//tdBNjEJDWcNZZFzZv9Mk3IZK1FBcILAHN/BKhZY2wl9DA9AevUBa/kfoF0J/YJ0B7hkgkQJUO4BTZcQTwwzGc2QBLbNi4AAAAASUVORK5CYII=',
+      bP: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAYFBMVEUAAACZmZmfn5+jo6Obm5uanp6Wlpapqalra2twcHC2tra3t7e/v7+5ubm8vLzJycm+vr7BwcHFxcXBwcGCgoKjo6OwsLDHx8e2tra6urq+vr6NjY1Y3x5iAAAALUlEQVRIie3UsQkAIAwDQfj/ZyemPGoSqqTtf8KMJchR5AgNSJoYKVkGhtV8mCcD3BeAocRp9UlQAAAABJRU5ErkJggg==',
+      bR: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAbFBMVEUAAADu7u7x8fH///+SkpL4+Pjj4+Px8fHu7u7y8vLa2trAwMDe3t7w8PDq6urv7+/c3Nzi4uK1tbXW1tY+pWZ0AAAArUlEQVRIie3VQQrCMAxE0RwV2v//OaQGIkaqpLe3vxRywS1P1EaAbRQgwIqBaE9tGRAOBa8QD5FeA+KBlBe9N9BUFCUAFGLA0kpPQIClIDQ2wHwLgphMJxkUZk7YZy7X6NVbMfyMThTSWlMLWrPqqgP6VCYBa7wQeO9MJ9At31ArLZK7fuwGa+F+DEBMIAAAAASUVORK5CYII=',
+      bN: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAY1BMVEUAAAD////v7+/AwMDe3t7Y2Nj09PTT09PLy8vZ2dnZ2dnPz8/b29vh4eHb29u+vr6np6eqqqq8vLygoKDc3Nzo6Oj5+fns7OxhYWF+fn5BQUFUVFRXV1dOTk5bW1upHg+ZAAAAJUlEQVRIie3RMQEAAAgCoP+vdeIYYg1pCI8PhQAAAACAeLgA7aDhTgAAAABJRU5ErkJggg==',
+      bB: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAbFBMVEUAAAD////x8fHY2Nj09PTf39/z8/Pe3t7Z2dnv7+/n5+fPz8/7+/vl5eXs7Ozw8PDv7+/V1dXg4ODe3t7f39/V1dXx8fHc3NzKysq/v7+ioqLn5+e2trZ4eHi2trbz5HyZAAAAPUlEQVRIie3UsQkAIBADwfn+e40HRBiq7Tf1ZUZG8GVuyWFAAxpbBCsTUEVV4B0J53bfyFvwBYLkYphzA04YAAAAASUVORK5CYII=',
+      bQ: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAbFBMVEUAAAD///+ZmZnX19fz8/Pu7u7c3NzY2Njj4+Pe3t7b29vk5OTq6urT09P5+fnv7+/S0tLe3t7b29vY2Njf39/Pz8+3t7fHx8fs7Ox8fHyMjIy5ubkNDQ2FhYWbm5uqqqrZ2dkMe4EYAAAAPElEQVRIie3UsQkAIAwDwfn+YvftDYYJhNyfLroKYMAhWBc2SI9IJ0AF/Hft7VLcF1CpBNLq5CN+Z+xGc3FEYwAAAAASUVORK5CYII=',
       bK: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAOVBMVEUAAADu7u7x8fH///+SkpL4+Pjj4+Px8fHu7u7y8vLa2trAwMDe3t7w8PDq6urv7+/c3Nzi4uK1tbXW1tY+pWZ0AAAArUlEQVRIie3VQQrCMAxE0RwV2v//OaQGIkaqpLe3vxRywS1P1EaAbRQgwIqBaE9tGRAOBa8QD5FeA+KBlBe9N9BUFCUAFGLA0kpPQIClIDQ2wHwLgphMJxkUZk7YZy7X6NVbMfyMThTSWlMLWrPqqgP6VCYBa7wQeO9MJ9At31ArLZK7fuwGa+F+DEBMIAAAAASUVORK5CYII=',
-      // Add the rest here...
-      // Get other pieces from: https://github.com/oakmac/chessboardjs/blob/master/img/chesspieces/wikipedia/
     };
 
-    const boardDiv = document.getElementById('board');
+    const boardDiv = document.getElementById("board");
     const game = new Chess();
     let history = [];
     let moveIndex = 0;
 
     function drawBoard() {
-      boardDiv.innerHTML = '';
+      boardDiv.innerHTML = "";
       const position = game.board();
       for (let r = 7; r >= 0; r--) {
         for (let c = 0; c < 8; c++) {
-          const square = document.createElement('div');
-          square.className = 'square ' + ((r + c) % 2 === 0 ? 'light' : 'dark');
+          const square = document.createElement("div");
+          square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
           const piece = position[r][c];
           if (piece) {
-            const img = document.createElement('img');
+            const img = document.createElement("img");
             const code = piece.color + piece.type.toUpperCase();
-            img.src = pieceImages[code];
+            img.src = pieces[code];
             square.appendChild(img);
           }
           boardDiv.appendChild(square);
