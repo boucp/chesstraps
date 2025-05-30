@@ -3,18 +3,18 @@ function toggleTraps(id) {
   list.style.display = list.style.display === "block" ? "none" : "block";
 }
 const pieces = {
-  wP: 'images/wP.png',
-  wR: 'images/wR.png',
-  wN: 'images/wN.png',
-  wB: 'images/wB.png',
-  wQ: 'images/wQ.png',
-  wK: 'images/wK.png',
-  bP: 'images/bP.png',
-  bR: 'images/bR.png',
-  bN: 'images/bN.png',
-  bB: 'images/bB.png',
-  bQ: 'images/bQ.png',
-  bK: 'images/bK.png',
+  wP: '/images/wP.png',
+  wR: '/images/wR.png',
+  wN: '/images/wN.png',
+  wB: '/images/wB.png',
+  wQ: '/images/wQ.png',
+  wK: '/images/wK.png',
+  bP: '/images/bP.png',
+  bR: '/images/bR.png',
+  bN: '/images/bN.png',
+  bB: '/images/bB.png',
+  bQ: '/images/bQ.png',
+  bK: '/images/bK.png',
 };
 
 let boardDiv, game, history = [], moveIndex = 0;
