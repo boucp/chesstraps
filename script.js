@@ -37,7 +37,7 @@ function drawBoard()
   boardDiv.innerHTML = "";
   const position = game.board();
   for (let r = 0; r < 8;r++) {
-    for (let c = 7;c >= 0;c--) {
+    for (let c = 0;c < 8;c++) {
       const square = document.createElement("div");
       square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
 
