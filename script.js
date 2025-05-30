@@ -39,10 +39,10 @@ function drawBoard() {
   for (let r = 7; r >= 0; r--) {
     for (let c = 0; c < 8; c++) {
       const square = document.createElement("div");
-      // Use (7 - r + c) for correct square coloring
-      square.className = "square " + ((7 - r + c) % 2 === 0 ? "light" : "dark");
+      // Fix square color based on display row and col
+      square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
 
-      const piece = position[r][c];
+      const piece = position[7 - r][c]; // <-- this fixes orientation
       if (piece) {
         const img = document.createElement("img");
         const code = piece.color + piece.type.toUpperCase();
