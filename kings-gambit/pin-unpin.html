@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <title>Begin the Unpin of the Pin</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h1>Begin the Unpin of the Pin</h1>
+  
+  <div id="board"></div>
+  
+  <button onclick="prevMove()">⏮ Prev</button>
+  <button onclick="nextMove()">Next ⏭</button>
+  <button onclick="flipBoard()">🔄 Flip Board</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    const pgn = `1. e4 e5 2. f4 d6 3. Nf3 Nc6 4. Bb5 Bg4 5. h3 Bxf3 6. Qxf3 Qh4+ 7. g3 Qf6 8. O-O O-O-O 9. Bxc6 bxc6 10. Qg4+ Kb8 11. fxe5`;
+    setupBoard(pgn);
+  </script>
+</body>
+</html>
