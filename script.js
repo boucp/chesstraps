@@ -18,7 +18,7 @@ const pieces = {
   bK: '../images/bK.png',
 };
 
-let boardDiv, game, history = [], moveIndex = 0, isFlipped = false;
+let boardDiv, game, history = [], moveIndex = 0, isFlipped = true;
 
 function setupBoard(pgn) {
   boardDiv = document.getElementById("board");
