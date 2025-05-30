@@ -36,24 +36,30 @@ function drawBoard() {
   boardDiv.innerHTML = "";
   const position = game.board();
 
-  const ranks = isFlipped ? [...Array(8).keys()] : [...Array(8).keys()].reverse(); // 0-7 or 7-0
-  const files = isFlipped ? [...Array(8).keys()].reverse() : [...Array(8).keys()]; // 7-0 or 0-7
+  const ranks = isFlipped ? [...Array(8).keys()] : [...Array(8).keys()].reverse();
+  const files = isFlipped ? [...Array(8).keys()].reverse() : [...Array(8).keys()];
 
   for (let r of ranks) {
     for (let c of files) {
+      const displayRank = isFlipped ? 7 - r : r;
+      const displayFile = isFlipped ? 7 - c : c;
+
       const square = document.createElement("div");
       square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
-      const piece = position[r][c];
+
+      const piece = position[displayRank][displayFile];
       if (piece) {
         const img = document.createElement("img");
         const code = piece.color + piece.type.toUpperCase();
         img.src = pieces[code];
         square.appendChild(img);
       }
+
       boardDiv.appendChild(square);
     }
   }
 }
+
 
 function nextMove() {
   if (moveIndex < history.length) {
