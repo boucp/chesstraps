@@ -2,212 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Chess Traps Viewer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chess Trap Viewer</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f2f2f2;
       text-align: center;
-      padding: 20px;
-    }
-    .container {
-      background: #fff;
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: #f2f2f2;
     }
     #board {
-      width: 400px;
       margin: 20px auto;
+      display: grid;
+      grid-template-columns: repeat(8, 60px);
+      width: 480px;
+    }
+    .square {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .light {
+      background: #f0d9b5;
+    }
+    .dark {
+      background: #b58863;
+    }
+    img {
+      width: 50px;
+      height: 50px;
     }
     button {
-      padding: 10px 15px;
+      padding: 8px 15px;
       margin: 5px;
       font-size: 16px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    .move-list {
-      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Chess Traps by Opening</h1>
-    <div id="opening-list"></div>
-    <div id="trap-list"></div>
-    <div id="board-container" style="display:none;">
-      <h2 id="trap-title"></h2>
-      <div id="board"></div>
-      <div>
-        <button id="prevBtn">⏮ Prev</button>
-        <button id="nextBtn">Next ⏭</button>
-      </div>
-      <div class="move-list" id="moveList"></div>
-    </div>
-  </div>
+  <h1>Chess Traps</h1>
+  <button onclick="loadTrap()">Load Fried Liver Attack</button>
+  <div id="board"></div>
+  <button onclick="prevMove()">⏮ Prev</button>
+  <button onclick="nextMove()">Next ⏭</button>
 
-  <!-- Embedded Libraries -->
-  <script>
-    /*! Chess.js (Simplified, full version recommended for real use) */
-    // use CDN:
-  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
-
   <script>
-    /*! Chessboard.js with Base64 pieces (light) */
     const pieceImages = {
-      wK: "https://upload.wikimedia.org/wikipedia/commons/4/42/Chess_klt60.png",
-      wQ: "https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt60.png",
-      wR: "https://upload.wikimedia.org/wikipedia/commons/7/72/Chess_rlt60.png",
-      wB: "https://upload.wikimedia.org/wikipedia/commons/b/b1/Chess_blt60.png",
-      wN: "https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt60.png",
-      wP: "https://upload.wikimedia.org/wikipedia/commons/4/45/Chess_plt60.png",
-      bK: "https://upload.wikimedia.org/wikipedia/commons/f/f0/Chess_kdt60.png",
-      bQ: "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt60.png",
-      bR: "https://upload.wikimedia.org/wikipedia/commons/f/ff/Chess_rdt60.png",
-      bB: "https://upload.wikimedia.org/wikipedia/commons/9/98/Chess_bdt60.png",
-      bN: "https://upload.wikimedia.org/wikipedia/commons/e/ef/Chess_ndt60.png",
-      bP: "https://upload.wikimedia.org/wikipedia/commons/c/c7/Chess_pdt60.png"
+      wK: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAMFBMVEX////AwMDIyMjv7+/V1dX7+/vX19fs7OzExMT4+Pjw8PDq6uqurq7BwcHHx8ezs7O0tLQPLcQBAAABOklEQVRIie3UwQ2AMAwF0OcgH//tdBNjEJDWcNZZFzZv9Mk3IZK1FBcILAHN/BKhZY2wl9DA9AevUBa/kfoF0J/YJ0B7hkgkQJUO4BTZcQTwwzGc2QBLbNi4AAAAASUVORK5CYII=',
+      bK: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAAC4zV0/AAAAOVBMVEUAAADu7u7x8fH///+SkpL4+Pjj4+Px8fHu7u7y8vLa2trAwMDe3t7w8PDq6urv7+/c3Nzi4uK1tbXW1tY+pWZ0AAAArUlEQVRIie3VQQrCMAxE0RwV2v//OaQGIkaqpLe3vxRywS1P1EaAbRQgwIqBaE9tGRAOBa8QD5FeA+KBlBe9N9BUFCUAFGLA0kpPQIClIDQ2wHwLgphMJxkUZk7YZy7X6NVbMfyMThTSWlMLWrPqqgP6VCYBa7wQeO9MJ9At31ArLZK7fuwGa+F+DEBMIAAAAASUVORK5CYII=',
+      // Add the rest here...
+      // Get other pieces from: https://github.com/oakmac/chessboardjs/blob/master/img/chesspieces/wikipedia/
     };
 
-    let boardEl, game, board, moveIndex = 0, currentMoves = [];
+    const boardDiv = document.getElementById('board');
+    const game = new Chess();
+    let history = [];
+    let moveIndex = 0;
 
-    const openings = {
-      "Italian Game": [
-        {
-          name: "Fried Liver Attack",
-          pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 d5 5. exd5 Nxd5 6. Nxf7 Kxf7 7. Qf3+ Ke6 8. Nc3 Nb4 9. a3 Nxc2+ 10. Kd1 Nxa1"
-        }
-      ],
-      "Philidor Defense": [
-        {
-          name: "Légal Trap",
-          pgn: "1. e4 e5 2. Nf3 d6 3. Bc4 Bg4 4. Nc3 g6 5. Nxe5 Bxd1 6. Bxf7+ Ke7 7. Nd5#"
-        }
-      ]
-    };
-
-    function createBoard(position) {
-      const container = document.getElementById("board");
-      container.innerHTML = '';
-      const table = document.createElement("table");
-      table.style.borderCollapse = "collapse";
-      table.style.margin = "auto";
+    function drawBoard() {
+      boardDiv.innerHTML = '';
+      const position = game.board();
       for (let r = 7; r >= 0; r--) {
-        const row = document.createElement("tr");
         for (let c = 0; c < 8; c++) {
-          const sq = document.createElement("td");
-          sq.style.width = "50px";
-          sq.style.height = "50px";
-          const light = (r + c) % 2 === 0;
-          sq.style.background = light ? "#f0d9b5" : "#b58863";
-          sq.style.textAlign = "center";
-          sq.style.verticalAlign = "middle";
-          const file = "abcdefgh"[c];
-          const rank = (r + 1).toString();
-          const piece = position[file + rank];
+          const square = document.createElement('div');
+          square.className = 'square ' + ((r + c) % 2 === 0 ? 'light' : 'dark');
+          const piece = position[r][c];
           if (piece) {
-            const img = document.createElement("img");
-            img.src = pieceImages[piece.color + piece.type.toUpperCase()];
-            img.style.width = "45px";
-            img.style.height = "45px";
-            sq.appendChild(img);
+            const img = document.createElement('img');
+            const code = piece.color + piece.type.toUpperCase();
+            img.src = pieceImages[code];
+            square.appendChild(img);
           }
-          row.appendChild(sq);
-        }
-        table.appendChild(row);
-      }
-      container.appendChild(table);
-    }
-
-    function updateBoard() {
-      const position = {};
-      const boardState = game.board();
-      for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-          const piece = boardState[r][c];
-          if (piece) {
-            const file = "abcdefgh"[c];
-            const rank = (8 - r).toString();
-            position[file + rank] = { type: piece.type, color: piece.color };
-          }
+          boardDiv.appendChild(square);
         }
       }
-      createBoard(position);
     }
 
-    function showOpenings() {
-      const list = document.getElementById("opening-list");
-      for (const name in openings) {
-        const btn = document.createElement("button");
-        btn.innerText = name;
-        btn.onclick = () => showTraps(name);
-        list.appendChild(btn);
-      }
-    }
-
-    function showTraps(opening) {
-      const list = document.getElementById("trap-list");
-      list.innerHTML = '';
-      for (const trap of openings[opening]) {
-        const btn = document.createElement("button");
-        btn.innerText = trap.name;
-        btn.onclick = () => loadTrap(trap);
-        list.appendChild(btn);
-      }
-    }
-
-    function loadTrap(trap) {
-      game = new Chess();
-      game.load_pgn(trap.pgn);
-      currentMoves = game.history();
+    function loadTrap() {
+      game.reset();
+      const pgn = `1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 d5 5. exd5 Nxd5 6. Nxf7 Kxf7 7. Qf3+ Ke6 8. Nc3 Nb4 9. a3 Nxc2+ 10. Kd1 Nxa1`;
+      game.load_pgn(pgn);
+      history = game.history();
       game.reset();
       moveIndex = 0;
-      document.getElementById("trap-title").innerText = trap.name;
-      document.getElementById("board-container").style.display = "block";
-      updateBoard();
-      updateMoveList();
+      drawBoard();
     }
 
-    function updateMoveList() {
-      const list = document.getElementById("moveList");
-      const history = game.history();
-      let html = '';
-      for (let i = 0; i < history.length; i += 2) {
-        html += `${i / 2 + 1}. ${history[i] || ''} ${history[i + 1] || ''}<br>`;
+    function nextMove() {
+      if (moveIndex < history.length) {
+        game.move(history[moveIndex++]);
+        drawBoard();
       }
-      list.innerHTML = html;
     }
 
-    document.getElementById("nextBtn").onclick = () => {
-      if (moveIndex < currentMoves.length) {
-        game.move(currentMoves[moveIndex++]);
-        updateBoard();
-        updateMoveList();
-      }
-    };
-
-    document.getElementById("prevBtn").onclick = () => {
+    function prevMove() {
       if (moveIndex > 0) {
         game.undo();
         moveIndex--;
-        updateBoard();
-        updateMoveList();
+        drawBoard();
       }
-    };
+    }
 
-    window.onload = showOpenings;
+    drawBoard();
   </script>
 </body>
 </html>
