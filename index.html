@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Chess Traps by Opening</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f4;
-      text-align: center;
       padding: 20px;
+      text-align: center;
     }
     .container {
       max-width: 900px;
@@ -39,8 +39,12 @@
     .controls {
       margin: 10px;
     }
+    .move-list {
+      margin-top: 10px;
+    }
   </style>
-  <link rel="stylesheet" href="https://unpkg.com/chessboardjs@1.0.0/www/css/chessboard.css" />
+  <!-- Chessboard.css and JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/dist/chessboard.min.css" />
 </head>
 <body>
   <div class="container">
@@ -55,12 +59,13 @@
         <button id="prevBtn">⏮ Prev</button>
         <button id="nextBtn">Next ⏭</button>
       </div>
-      <div id="moveList"></div>
+      <div class="move-list" id="moveList"></div>
     </div>
   </div>
 
-  <script src="https://unpkg.com/chess.js@1.0.0/chess.min.js"></script>
-  <script src="https://unpkg.com/chessboardjs@1.0.0/chessboard-1.0.0.min.js"></script>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/dist/chessboard.min.js"></script>
   <script>
     const openings = {
       "Italian Game": [
@@ -148,7 +153,10 @@
     };
 
     window.onload = () => {
-      board = Chessboard('board', 'start');
+      board = Chessboard('board', {
+        position: 'start',
+        draggable: false
+      });
       showOpenings();
     };
   </script>
