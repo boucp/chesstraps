@@ -35,8 +35,8 @@ function setupBoard(pgn) {
 function drawBoard() {
   boardDiv.innerHTML = "";
   const position = game.board();
-
-  for (let r = 7; r >=0;r--) { // Start from rank 1 (bottom) to rank 8 (top)
+if(!isFlipped){
+  for (let r = 7; r >=0;r--) {
     for (let c = 7;c >=0;c--) {
       const square = document.createElement("div");
       square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
@@ -52,6 +52,9 @@ function drawBoard() {
       boardDiv.appendChild(square);
     }
   }
+}
+  else{
+    
 }
 
 
