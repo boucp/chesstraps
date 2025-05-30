@@ -36,11 +36,11 @@ function drawBoard() {
   boardDiv.innerHTML = "";
   const position = game.board();
 
-  // Loop from rank 8 to 1 (white at bottom)
   for (let r = 7; r >= 0; r--) {
     for (let c = 0; c < 8; c++) {
       const square = document.createElement("div");
-      square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
+      // Use (7 - r + c) for correct square coloring
+      square.className = "square " + ((7 - r + c) % 2 === 0 ? "light" : "dark");
 
       const piece = position[r][c];
       if (piece) {
