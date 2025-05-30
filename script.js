@@ -41,13 +41,10 @@ function drawBoard() {
 
   for (let r of ranks) {
     for (let c of files) {
-      const displayRank = isFlipped ? 7 - r : r;
-      const displayFile = isFlipped ? 7 - c : c;
-
       const square = document.createElement("div");
       square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
 
-      const piece = position[displayRank][displayFile];
+      const piece = position[r][c]; // ← DON'T remap rank/file here
       if (piece) {
         const img = document.createElement("img");
         const code = piece.color + piece.type.toUpperCase();
