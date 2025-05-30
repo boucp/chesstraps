@@ -18,7 +18,7 @@ const pieces = {
   bK: '../images/bK.png',
 };
 
-let boardDiv, game, history = [], moveIndex = 0, isFlipped = true;
+let boardDiv, game, history = [], moveIndex = 0, isFlipped = false;
 
 function setupBoard(pgn) {
   boardDiv = document.getElementById("board");
@@ -36,8 +36,8 @@ function drawBoard() {
   boardDiv.innerHTML = "";
   const position = game.board();
 
-  const ranks = isFlipped ? [...Array(8).keys()] : [...Array(8).keys()].reverse();
-  const files = isFlipped ? [...Array(8).keys()].reverse() : [...Array(8).keys()];
+  const ranks = isFlipped ? [...Array(8).keys()] : [...Array(8).keys()].reverse(); // 0-7 or 7-0
+  const files = isFlipped ? [...Array(8).keys()].reverse() : [...Array(8).keys()]; // 7-0 or 0-7
 
   for (let r of ranks) {
     for (let c of files) {
