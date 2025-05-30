@@ -36,15 +36,13 @@ function drawBoard() {
   boardDiv.innerHTML = "";
   const position = game.board();
 
-  const ranks = isFlipped ? [...Array(8).keys()] : [...Array(8).keys()].reverse();
-  const files = isFlipped ? [...Array(8).keys()].reverse() : [...Array(8).keys()];
-
-  for (let r of ranks) {
-    for (let c of files) {
+  // Loop from rank 8 to 1 (white at bottom)
+  for (let r = 7; r >= 0; r--) {
+    for (let c = 0; c < 8; c++) {
       const square = document.createElement("div");
       square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
 
-      const piece = position[r][c]; // ← DON'T remap rank/file here
+      const piece = position[r][c];
       if (piece) {
         const img = document.createElement("img");
         const code = piece.color + piece.type.toUpperCase();
@@ -56,6 +54,7 @@ function drawBoard() {
     }
   }
 }
+
 
 
 function nextMove() {
