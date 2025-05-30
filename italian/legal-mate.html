@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Legal's Mate</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h1>Legal's Mate</h1>
+  <div id="board" style="width: 400px; margin: auto;"></div>
+  <button onclick="playTrap()">Play Trap</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/1.0.0/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard.min.css" />
+
+  <script>
+    const game = new Chess();
+    const board = Chessboard('board', {
+      position: 'start'
+    });
+
+    const pgn = `
+      1.e4 e5
+      2.Nf3 Nc6
+      3.Bc4 d6
+      4.Nc3 Bg4
+      5.Nxe5!? Bxd1
+      6.Bxf7+ Ke7
+      7.Nd5# 
+    `;
+
+    function playTrap() {
+      game.reset();
+      board.position('start');
+      const moves = pgn.trim().split(/\s*\d+\./).flatMap(s => s.trim().split(/\s+/)).filter(Boolean);
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i >= moves.length) return clearInterval(interval);
+        game.move(moves[i++]);
+        board.position(game.fen());
+      }, 800);
+    }
+  </script>
+</body>
+</html>
