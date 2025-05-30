@@ -54,7 +54,22 @@ if(!isFlipped){
   }
 }
   else{
-    
+    for (let r = 0; r <8;r++) {
+    for (let c = 7;c >=0;c--) {
+      const square = document.createElement("div");
+      square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
+
+      const piece = position[r][c]; // This flips vertical access correctly
+      if (piece) {
+        const img = document.createElement("img");
+        const code = piece.color + piece.type.toUpperCase();
+        img.src = pieces[code];
+        square.appendChild(img);
+      }
+
+      boardDiv.appendChild(square);
+    }
+  }
 }
 
 
