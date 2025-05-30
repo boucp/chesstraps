@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Chess Traps by Opening</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>Chess Traps</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f0f0f0;
       padding: 20px;
       text-align: center;
     }
@@ -25,7 +25,7 @@
       font-size: 16px;
       border: none;
       background: #007bff;
-      color: #fff;
+      color: white;
       border-radius: 5px;
       cursor: pointer;
     }
@@ -36,22 +36,19 @@
       width: 400px;
       margin: 20px auto;
     }
-    .controls {
-      margin: 10px;
-    }
     .move-list {
       margin-top: 10px;
     }
+    .controls {
+      margin-top: 10px;
+    }
   </style>
-  <!-- Chessboard.css and JS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/dist/chessboard.min.css" />
 </head>
 <body>
   <div class="container">
     <h1>Chess Traps by Opening</h1>
     <div id="opening-list"></div>
     <div id="trap-list"></div>
-
     <div id="board-container" style="display:none;">
       <h2 id="trap-title"></h2>
       <div id="board"></div>
@@ -63,9 +60,11 @@
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chessboardjs@1.0.0/dist/chessboard.min.js"></script>
+  <!-- Load everything via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@chrisoakman/chessboardjs@1.0.0/dist/chessboard.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@chrisoakman/chessboardjs@1.0.0/dist/chessboard.min.css">
+
   <script>
     const openings = {
       "Italian Game": [
@@ -82,28 +81,22 @@
       ]
     };
 
-    const openingListDiv = document.getElementById('opening-list');
-    const trapListDiv = document.getElementById('trap-list');
-    const boardContainer = document.getElementById('board-container');
-    const trapTitle = document.getElementById('trap-title');
-    const moveList = document.getElementById('moveList');
     let board, game, currentMoves, moveIndex;
 
     function showOpenings() {
+      const openingListDiv = document.getElementById('opening-list');
       openingListDiv.innerHTML = '';
-      trapListDiv.innerHTML = '';
-      boardContainer.style.display = 'none';
-      for (const opening in openings) {
+      for (const name in openings) {
         const btn = document.createElement('button');
-        btn.textContent = opening;
-        btn.onclick = () => showTraps(opening);
+        btn.textContent = name;
+        btn.onclick = () => showTraps(name);
         openingListDiv.appendChild(btn);
       }
     }
 
     function showTraps(opening) {
+      const trapListDiv = document.getElementById('trap-list');
       trapListDiv.innerHTML = '';
-      boardContainer.style.display = 'none';
       openings[opening].forEach(trap => {
         const btn = document.createElement('button');
         btn.textContent = trap.name;
@@ -118,21 +111,22 @@
       currentMoves = game.history();
       game.reset();
       moveIndex = 0;
-      trapTitle.textContent = trap.name;
+      document.getElementById('trap-title').textContent = trap.name;
       board.position('start');
       updateMoveList();
-      boardContainer.style.display = 'block';
+      document.getElementById('board-container').style.display = 'block';
     }
 
     function updateMoveList() {
       const moves = game.history({ verbose: true });
+      const listDiv = document.getElementById('moveList');
       let html = '';
       for (let i = 0; i < moves.length; i += 2) {
-        const w = moves[i] ? moves[i].san : '';
-        const b = moves[i + 1] ? moves[i + 1].san : '';
-        html += `${Math.floor(i / 2) + 1}. ${w} ${b}<br>`;
+        const white = moves[i] ? moves[i].san : '';
+        const black = moves[i+1] ? moves[i+1].san : '';
+        html += `${Math.floor(i/2)+1}. ${white} ${black}<br>`;
       }
-      moveList.innerHTML = html;
+      listDiv.innerHTML = html;
     }
 
     document.getElementById('nextBtn').onclick = () => {
