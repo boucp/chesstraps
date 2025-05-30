@@ -3,117 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <title>Chess Trap Viewer</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #f5f5f5;
-    }
-    #board {
-      margin: 20px auto;
-      display: grid;
-      grid-template-columns: repeat(8, 60px);
-      width: 480px;
-    }
-    .square {
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .light {
-      background: #f0d9b5;
-    }
-    .dark {
-      background: #b58863;
-    }
-    img {
-      width: 50px;
-      height: 50px;
-    }
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 16px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>Chess Trap Viewer</h1>
-  <button onclick="loadTrap()">Load Fried Liver Attack</button>
-  <div id="board"></div>
-  <button onclick="prevMove()">⏮ Prev</button>
-  <button onclick="nextMove()">Next ⏭</button>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
-  <script>
-    const pieces = {
-  wP: 'images/wP.png',
-  wR: 'images/wR.png',
-  wN: 'images/wN.png',
-  wB: 'images/wB.png',
-  wQ: 'images/wQ.png',
-  wK: 'images/wK.png',
-  bP: 'images/bP.png',
-  bR: 'images/bR.png',
-  bN: 'images/bN.png',
-  bB: 'images/bB.png',
-  bQ: 'images/bQ.png',
-  bK: 'images/bK.png',
-};
+  <div class="openings">
+    <div class="opening">
+      <h2 onclick="toggleTraps('italian')">Italian</h2>
+      <ul id="italian" class="trap-list">
+        <li><a href="italian/legal-mate.html">Legal's Mate</a></li>
+        <li><a href="italian/fried-liver.html">Fried Liver Attack</a></li>
+      </ul>
+    </div>
 
+    <div class="opening">
+      <h2 onclick="toggleTraps('scotch')">Scotch</h2>
+      <ul id="scotch" class="trap-list">
+        <li><a href="scotch/duffer’s-mate.html">Duffer’s Mate</a></li>
+        <li><a href="scotch/goering-gambit.html">Goering Gambit</a></li>
+      </ul>
+    </div>
+  </div>
 
-    const boardDiv = document.getElementById("board");
-    const game = new Chess();
-    let history = [];
-    let moveIndex = 0;
-
-    function drawBoard() {
-      boardDiv.innerHTML = "";
-      const position = game.board();
-      for (let r = 7; r >= 0; r--) {
-        for (let c = 0; c < 8; c++) {
-          const square = document.createElement("div");
-          square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
-          const piece = position[r][c];
-          if (piece) {
-            const img = document.createElement("img");
-            const code = piece.color + piece.type.toUpperCase();
-            img.src = pieces[code];
-            square.appendChild(img);
-          }
-          boardDiv.appendChild(square);
-        }
-      }
-    }
-
-    function loadTrap() {
-      game.reset();
-      const pgn = `1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 d5 5. exd5 Nxd5 6. Nxf7 Kxf7 7. Qf3+ Ke6 8. Nc3 Nb4 9. a3 Nxc2+ 10. Kd1 Nxa1`;
-      game.load_pgn(pgn);
-      history = game.history();
-      game.reset();
-      moveIndex = 0;
-      drawBoard();
-    }
-
-    function nextMove() {
-      if (moveIndex < history.length) {
-        game.move(history[moveIndex++]);
-        drawBoard();
-      }
-    }
-
-    function prevMove() {
-      if (moveIndex > 0) {
-        game.undo();
-        moveIndex--;
-        drawBoard();
-      }
-    }
-
-    drawBoard();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
