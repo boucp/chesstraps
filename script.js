@@ -36,13 +36,12 @@ function drawBoard() {
   boardDiv.innerHTML = "";
   const position = game.board();
 
-  for (let r = 7; r >= 0; r--) {
+  for (let r = 0; r < 8; r++) { // Start from rank 1 (bottom) to rank 8 (top)
     for (let c = 0; c < 8; c++) {
       const square = document.createElement("div");
-      // Fix square color based on display row and col
       square.className = "square " + ((r + c) % 2 === 0 ? "light" : "dark");
 
-      const piece = position[7 - r][c]; // <-- this fixes orientation
+      const piece = position[7 - r][c]; // This flips vertical access correctly
       if (piece) {
         const img = document.createElement("img");
         const code = piece.color + piece.type.toUpperCase();
