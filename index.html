@@ -1,30 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chess Traps by Opening</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fischer vs Spassky - Chess Viewer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/chessboardjs/dist/chessboard-1.0.0.min.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Chess Traps by Opening</h1>
-    <div id="opening-list"></div>
-    <div id="trap-list"></div>
-    <div id="board-container" style="display:none">
-      <h2 id="trap-title"></h2>
-      <div id="board" style="width: 400px; margin: auto;"></div>
-      <div class="controls">
-        <button id="prevBtn">⏮ Prev</button>
-        <button id="nextBtn">Next ⏭</button>
-      </div>
-      <div id="moveList"></div>
+    <h1>Fischer vs Spassky (1972)</h1>
+    <p><strong>Event:</strong> World Championship<br>
+       <strong>Date:</strong> 1972.07.11<br>
+       <strong>Result:</strong> 1-0</p>
+    
+    <div id="board" style="width: 400px;"></div>
+    <div class="controls">
+      <button id="prevBtn">⏮ Prev</button>
+      <button id="nextBtn">Next ⏭</button>
     </div>
+    <p><strong>Moves:</strong></p>
+    <div id="moveList"></div>
   </div>
 
   <script src="https://unpkg.com/chess.js@1.0.0/chess.min.js"></script>
   <script src="https://unpkg.com/chessboardjs@1.0.0/chessboard-1.0.0.min.js"></script>
-  <script src="traps.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
