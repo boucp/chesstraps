@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Deflection Trap</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h1>Deflection Trap</h1>
+  <div id="board" style="width: 400px; margin: auto;"></div>
+  <div style="text-align: center; margin-top: 1rem;">
+    <button onclick="prevMove()">⏮ Prev</button>
+    <button onclick="nextMove()">Next ⏭</button>
+    <button onclick="flipBoard()">🔄 Flip</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    const pgn = `1. e4 e5 2. f4 Bc5 3. Nf3 Nf6 4. Nc3 d6 5. Bc4 Nc6 6. f5 O-O 7. d3 Ng4 8. Rf1 Nxh2 9. Ng5 Nxf1 10. Qh5 h6 11. Nxf7 Rxf7 12. Qxf7+ Kh7 13. Bg5 Qxg5 14. Qg8#`;
+    setupBoard(pgn);
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>KG Muzio</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h1>KG Muzio</h1>
+  <div id="board" style="width: 400px; margin: auto;"></div>
+  <div style="text-align: center; margin-top: 1rem;">
+    <button onclick="prevMove()">⏮ Prev</button>
+    <button onclick="nextMove()">Next ⏭</button>
+    <button onclick="flipBoard()">🔄 Flip</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    const pgn = `1. e4 e5 2. f4 exf4 3. Nf3 g5 4. Bc4 g4 5. O-O gxf3 6. Qxf3 Qf6 7. e5 Qxe5 8. Bxf7+ Kxf7 9. d4 Qxd4+ 10. Be3 Qf6 11. Nc3 Ne7 12. Nd5 Nxd5 13. Qxd5+ Qe6 14. Rxf4+ Kg8 15. Rxf8+ Kxf8 16. Rf1+ Ke8 17. Qh5+ Qg6 18. Qe5+ Qe6 19. Qxh8+ Ke7 20. Qf8#`;
+    setupBoard(pgn);
+  </script>
+</body>
+</html>

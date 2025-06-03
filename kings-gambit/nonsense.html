@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nonsense Trap</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h1>Nonsense Trap</h1>
+  <div id="board" style="width: 400px; margin: auto;"></div>
+  <div style="text-align: center; margin-top: 1rem;">
+    <button onclick="prevMove()">⏮ Prev</button>
+    <button onclick="nextMove()">Next ⏭</button>
+    <button onclick="flipBoard()">🔄 Flip</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    const pgn = `1. e4 e5 2. f4 Qf6 3. Nf3 Qxf4 4. Nc3 Bb4 5. Bc4 Bxc3 6. O-O Bb4 7. d4 Qxe4 8. Bxf7+ Kd8 9. Bxg8 Rxg8 10. Bg5+ Be7 11. Bxe7+ Kxe7 12. Nxe5 Rf8 13. Rxf8 Kxf8 14. Qf1+ Kg8 15. Qf7+ Kh8 16. Qf8#`;
+    setupBoard(pgn);
+  </script>
+</body>
+</html>

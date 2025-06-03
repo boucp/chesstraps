@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Meek Double</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h1>Meek Double</h1>
+  <div id="board" style="width: 400px; margin: auto;"></div>
+  <div style="text-align: center; margin-top: 1rem;">
+    <button onclick="prevMove()">⏮ Prev</button>
+    <button onclick="nextMove()">Next ⏭</button>
+    <button onclick="flipBoard()">🔄 Flip</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    const pgn = `1. e4 e5 2. f4 exf4 3. Nf3 d5 4. Nc3 dxe4 5. Nxe4 Bg4 6. Qe2 Bxf3 7. Nf6#`;
+    setupBoard(pgn);
+  </script>
+</body>
+</html>

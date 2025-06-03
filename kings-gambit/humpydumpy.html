@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Humpy Dumpy</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h1>Humpy Dumpy</h1>
+  <div id="board" style="width: 400px; margin: auto;"></div>
+  <div style="text-align: center; margin-top: 1rem;">
+    <button onclick="prevMove()">⏮ Prev</button>
+    <button onclick="nextMove()">Next ⏭</button>
+    <button onclick="flipBoard()">🔄 Flip</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    const pgn = `1. e4 e5 2. f4 exf4 3. Nf3 g5 4. Bc4 Bg7 5. d4 g4 6. Bxf4 gxf3 7. O-O fxg2 8. Bxf7+ Kxf7 9. Qh5+ Ke7 10. Bd6+ Kxd6 11. Qc5+ Ke6 12. d5+ Ke5 13. d6+ Kxe4 14. Nd2#`;
+    setupBoard(pgn);
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Black Smooth</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h1>Black Smooth</h1>
+  <div id="board" style="width: 400px; margin: auto;"></div>
+  <div style="text-align: center; margin-top: 1rem;">
+    <button onclick="prevMove()">⏮ Prev</button>
+    <button onclick="nextMove()">Next ⏭</button>
+    <button onclick="flipBoard()">🔄 Flip</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    const pgn = `1. e4 e5 2. f4 exf4 3. Nf3 g5 4. Nc3 g4 5. Ne5 Qh4+ 6. g3 fxg3 7. Qxg4 g2+ 8. Qxh4 gxh1=Q 9. Qh5 Be7 10. Nxf7 Nf6 11. Nd6+ Kd8 12. Qe8+ Rxe8 13. Nf7#`;
+    setupBoard(pgn);
+  </script>
+</body>
+</html>
