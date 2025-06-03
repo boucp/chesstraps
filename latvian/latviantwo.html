@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Latvian Two</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <h1>Latvian Two</h1>
+  <div id="board"></div>
+  <button onclick="prevMove()">⏮ Prev</button>
+  <button onclick="nextMove()">Next ⏭</button>
+  <button onclick="flipBoard()">🔄 Flip Board</button>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    const pgn = `1.e4 e5 2.Nf3 f5 3.Nxe5 Nc6 4.Qh5+ g6 5.Nxg6 Nf6 6.Qh4 Rg8 7.Nxf8 Rg4 8.Qh6 Rxe4+ 9.Kd1 Ng4 10.Qh5+ Kxf8 11.Qxf5+ Kg8 12.d3 d5 13.Qf3 Nxf2+ 14.Qxf2 Bg4+ 15.Kd2 Qg5+ 16.Kc3 d4+ 17.Kb3 Qb5+ 18.Ka3 Qb4#`;
+    setupBoard(pgn);
+  </script>
+</body>
+</html>
